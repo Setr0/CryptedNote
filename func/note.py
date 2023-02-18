@@ -50,3 +50,12 @@ def save(title, text):
     jsonFileWriter = open("./json/notes.json", "w")
     jsonFileWriter.write(json.dumps(notesObject))
     jsonFileWriter.close()
+
+def exitNote():
+    from windows.home import homeFrame
+    from windows.note import noteFrame, textarea
+
+    textarea.delete(1.0, ctk.END)
+
+    noteFrame.pack_forget()
+    homeFrame.pack(fill=ctk.BOTH, expand=True)

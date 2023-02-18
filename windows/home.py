@@ -2,7 +2,7 @@ import customtkinter as ctk
 from windows.root import root
 from func.note import create
 
-homeFrame = ctk.CTkFrame(root)
+homeFrame = ctk.CTkFrame(root, fg_color="transparent")
 
 newNoteFormFrame = ctk.CTkFrame(homeFrame, fg_color="transparent")
 newNoteFormFrame.pack(pady=20)
