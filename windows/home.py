@@ -17,4 +17,7 @@ newNoteButton = ctk.CTkButton(newNoteFormFrame,
                                 font=("Helvetica", 20), 
                                 command=lambda:create(titleEntry))
 
-newNoteButton.grid(row=0, column=1, padx=10)
+newNoteButton.grid(row=0, column=1, padx=(10, 0))
+
+notesFrame = ctk.CTkFrame(homeFrame, fg_color="transparent")
+notesFrame.pack(pady=20, fill=ctk.X)

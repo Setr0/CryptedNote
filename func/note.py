@@ -4,7 +4,7 @@ import func.crypt as crypt
 import func.file as file
 
 def create(titleEntry):
-    from windows.home import homeFrame
+    from windows.home import notesFrame
 
     title = titleEntry.get()
     cryptedTitle = crypt.encrypt(title)
@@ -17,7 +17,7 @@ def create(titleEntry):
 
     notesObject[cryptedTitle] = crypt.encrypt("")
 
-    newNoteButton = ctk.CTkButton(homeFrame, 
+    newNoteButton = ctk.CTkButton(notesFrame, 
                                   text=title, 
                                   width=500, 
                                   height=40, 
@@ -32,12 +32,16 @@ def create(titleEntry):
     jsonFileWriter.close()
 
 def openNote(title):
-    from windows.home import homeFrame
-    from windows.note import noteFrame, textarea, saveButton, newTitleEntry
+    from windows.home import homeFrame, notesFrame
+    from windows.note import noteFrame, textarea, saveButton, newTitleEntry, deleteButton
+
+    for child in notesFrame.winfo_children():
+        child.destroy()
 
     homeFrame.pack_forget()
     noteFrame.pack(expand=True, fill=ctk.BOTH)
     saveButton.configure(command=lambda:save(title, textarea.get(1.0, "end")))
+    deleteButton.configure(command=lambda:deleteNote(title))
 
     notesObject = json.loads(file.read())
 
@@ -57,10 +61,43 @@ def save(title, text):
     file.write(json.dumps(notesObject, indent=4))
 
 def exitNote():
-    from windows.home import homeFrame
-    from windows.note import noteFrame, textarea
+    from windows.home import homeFrame, notesFrame
+    from windows.note import noteFrame, textarea, newTitleEntry
 
     textarea.delete(1.0, ctk.END)
 
+    newTitleEntry.delete(0, ctk.END)
+
     noteFrame.pack_forget()
     homeFrame.pack(fill=ctk.BOTH, expand=True)
+
+    notesObject = json.loads(file.read())
+
+    notes = list(notesObject.keys())
+
+    notes.sort()
+
+    for note in notes:
+        title = crypt.decrypt(note)
+
+        newNoteButton = ctk.CTkButton(notesFrame, 
+                                  text=title, 
+                                  width=500, 
+                                  height=40, 
+                                  font=("Helvetica", 20), 
+                                  command=lambda:openNote(note))
+        
+        newNoteButton.pack(pady=20)
+
+
+def newTitle(oldTitle, newTitle):
+    pass
+
+def deleteNote(title):
+    notesObject = json.loads(file.read())
+
+    del notesObject[title]
+
+    file.write(json.dumps(notesObject, indent=4))
+
+    exitNote()
