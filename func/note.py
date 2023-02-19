@@ -1,24 +1,21 @@
 import customtkinter as ctk
 import json
-from cryptography.fernet import Fernet
-
-key = "0iMZOpJiqgarAptwwEkd3l2PH6wBkfLC1RFQgpmLiC8="
-fernet = Fernet(key)
+import func.crypt as crypt
+import func.file as file
 
 def create(titleEntry):
     from windows.home import homeFrame
 
     title = titleEntry.get()
-    cryptedTitle = str(fernet.encrypt(title.encode())).replace("b'", "").replace("'", "")
+    cryptedTitle = crypt.encrypt(title)
 
-    jsonFileReader = open("./json/notes.json", "r")
-    notesObject = json.loads(jsonFileReader.read())
+    notesObject = json.loads(file.read())
 
     if cryptedTitle in notesObject.keys():
         titleEntry.delete(0, ctk.END)
         return
 
-    notesObject[cryptedTitle] = str(fernet.encrypt("".encode())).replace("b'", "").replace("'", "")
+    notesObject[cryptedTitle] = crypt.encrypt("")
 
     newNoteButton = ctk.CTkButton(homeFrame, 
                                   text=title, 
@@ -31,35 +28,33 @@ def create(titleEntry):
     titleEntry.delete(0, ctk.END)
 
     jsonFileWriter = open("./json/notes.json", "w")
-    jsonFileWriter.write(json.dumps(notesObject))
+    jsonFileWriter.write(json.dumps(notesObject, indent=4))
     jsonFileWriter.close()
 
 def openNote(title):
     from windows.home import homeFrame
-    from windows.note import noteFrame, textarea, saveButton
+    from windows.note import noteFrame, textarea, saveButton, newTitleEntry
 
     homeFrame.pack_forget()
     noteFrame.pack(expand=True, fill=ctk.BOTH)
     saveButton.configure(command=lambda:save(title, textarea.get(1.0, "end")))
 
-    jsonFileReader = open("./json/notes.json", "r")
-    notesObject = json.loads(jsonFileReader.read())
+    notesObject = json.loads(file.read())
 
-    decryptedText = str(fernet.decrypt(notesObject[title]).decode())
+    decryptedText = crypt.decrypt(notesObject[title])
 
     textarea.insert(1.0, decryptedText)
 
+    newTitleEntry.insert(0, crypt.decrypt(title))
+
 def save(title, text):
-    jsonFileReader = open("./json/notes.json", "r")
-    notesObject = json.loads(jsonFileReader.read())
+    notesObject = json.loads(file.read())
 
-    cryptedText = str(fernet.encrypt(text.encode())).replace("b'", "").replace("'", "")
+    cryptedText = crypt.encrypt(text)
 
-    notesObject[title] = str(cryptedText)
+    notesObject[title] = cryptedText
 
-    jsonFileWriter = open("./json/notes.json", "w")
-    jsonFileWriter.write(json.dumps(notesObject))
-    jsonFileWriter.close()
+    file.write(json.dumps(notesObject, indent=4))
 
 def exitNote():
     from windows.home import homeFrame
