@@ -7,11 +7,12 @@ def create(titleEntry):
     from windows.home import notesFrame
 
     title = titleEntry.get()
+    
     cryptedTitle = crypt.encrypt(title)
 
     notesObject = json.loads(file.read())
 
-    if cryptedTitle in notesObject.keys():
+    if cryptedTitle in notesObject.keys() or len(title) == 0:
         titleEntry.delete(0, ctk.END)
         return
 
@@ -23,25 +24,25 @@ def create(titleEntry):
                                   height=40, 
                                   font=("Helvetica", 20), 
                                   command=lambda:openNote(cryptedTitle))
-    
     newNoteButton.pack(pady=20)
     titleEntry.delete(0, ctk.END)
 
-    jsonFileWriter = open("./json/notes.json", "w")
-    jsonFileWriter.write(json.dumps(notesObject, indent=4))
-    jsonFileWriter.close()
+    file.write(json.dumps(notesObject, indent=4))
 
 def openNote(title):
     from windows.home import homeFrame, notesFrame
-    from windows.note import noteFrame, textarea, saveButton, newTitleEntry, deleteButton
+    from windows.note import noteFrame, textarea, saveButton, newTitleEntry, deleteButton, newTitleButton, oldTitleVariable
 
     for child in notesFrame.winfo_children():
         child.destroy()
 
     homeFrame.pack_forget()
     noteFrame.pack(expand=True, fill=ctk.BOTH)
-    saveButton.configure(command=lambda:save(title, textarea.get(1.0, "end")))
+    saveButton.configure(command=lambda:save(oldTitleVariable.get(), textarea.get(1.0, "end")))
     deleteButton.configure(command=lambda:deleteNote(title))
+    
+    oldTitleVariable.set(title)
+    newTitleButton.configure(command=lambda:newTitle(oldTitleVariable.get(), newTitleEntry.get()))
 
     notesObject = json.loads(file.read())
 
@@ -91,7 +92,19 @@ def exitNote():
 
 
 def newTitle(oldTitle, newTitle):
-    pass
+    from windows.note import oldTitleVariable
+
+    notesObject = json.loads(file.read())
+
+    cryptedNewTitle = crypt.encrypt(newTitle)
+
+    notesObject[cryptedNewTitle] = notesObject[oldTitle]
+
+    del notesObject[oldTitle]
+
+    file.write(json.dumps(notesObject, indent=4))
+
+    oldTitleVariable.set(cryptedNewTitle)
 
 def deleteNote(title):
     notesObject = json.loads(file.read())

@@ -16,6 +16,8 @@ saveButton.grid(column=0, row=0, sticky=ctk.W, padx=5, pady=5)
 newTitleForm = ctk.CTkFrame(navbarFrame, fg_color="transparent")
 newTitleForm.grid(column=1, row=0, sticky=ctk.NW, pady=5)
 
+oldTitleVariable = ctk.StringVar()
+
 newTitleEntry = ctk.CTkEntry(newTitleForm, width=500, height=40, font=("Helvetica", 20))
 newTitleEntry.grid(row=0, column=0)
 
