@@ -8,8 +8,7 @@ from func.file import read
 
 if __name__ == "__main__":
     homeFrame.pack(fill=ctk.BOTH, expand=True)
-
-    jsonFileReader = open("./json/notes.json", "r")
+    
     notesObject = json.loads(read())
     notes = list(notesObject.keys())
 

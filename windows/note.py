@@ -36,3 +36,12 @@ deleteButton.grid(column=3, row=0, padx=5, pady=5, sticky=ctk.E)
 
 textarea = ctk.CTkTextbox(noteFrame, font=("Helvetica", 20))
 textarea.pack(expand=True, fill=ctk.BOTH)
+
+infoBar = ctk.CTkFrame(noteFrame, height=40)
+infoBar.pack(fill=ctk.X, side=ctk.BOTTOM)
+
+charsLabel = ctk.CTkLabel(infoBar, text="Characters: 20", font=("Helvetica", 20))
+charsLabel.pack(side=ctk.LEFT, padx=(20, 0))
+
+wordsLabel = ctk.CTkLabel(infoBar, text="Words: 25", font=("Helvetica", 20))
+wordsLabel.pack(side=ctk.LEFT, padx=(20, 0))

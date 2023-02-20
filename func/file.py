@@ -1,4 +1,4 @@
-JSON_FILE = "./json/notes.json"
+JSON_FILE = "json/notes.json"
 
 def read():
     fileReader = open(JSON_FILE, "r")
