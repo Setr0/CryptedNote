@@ -37,11 +37,24 @@ deleteButton.grid(column=3, row=0, padx=5, pady=5, sticky=ctk.E)
 textarea = ctk.CTkTextbox(noteFrame, font=("Helvetica", 20))
 textarea.pack(expand=True, fill=ctk.BOTH)
 
+def checkCharacters(event):
+    text = textarea.get(1.0, "end-1c")
+    
+    for char in text:
+        if char == " " or char == "\n":
+            text = text.replace(char, "")
+
+    charsLabel.configure(text=f"Characters: {len(text)}")
+
+textarea.bind("<KeyRelease>", checkCharacters)
+
 infoBar = ctk.CTkFrame(noteFrame, height=40)
 infoBar.pack(fill=ctk.X, side=ctk.BOTTOM)
 
-charsLabel = ctk.CTkLabel(infoBar, text="Characters: 20", font=("Helvetica", 20))
+charsLabel = ctk.CTkLabel(infoBar, text="Characters: 0", font=("Helvetica", 20))
 charsLabel.pack(side=ctk.LEFT, padx=(20, 0))
+text = textarea.get(1.0, "end-1c")
+charsLabel.configure(text=f"Characters: {len(text)}")
 
-wordsLabel = ctk.CTkLabel(infoBar, text="Words: 25", font=("Helvetica", 20))
+wordsLabel = ctk.CTkLabel(infoBar, text="Words: 0", font=("Helvetica", 20))
 wordsLabel.pack(side=ctk.LEFT, padx=(20, 0))
