@@ -31,7 +31,7 @@ def create(titleEntry):
 
 def openNote(title):
     from windows.home import homeFrame, notesFrame
-    from windows.note import noteFrame, textarea, saveButton, newTitleEntry, deleteButton, newTitleButton, oldTitleVariable
+    from windows.note import noteFrame, textarea, saveButton, newTitleEntry, deleteButton, newTitleButton, oldTitleVariable, checkText
 
     for child in notesFrame.winfo_children():
         child.destroy()
@@ -51,6 +51,8 @@ def openNote(title):
     textarea.insert(1.0, decryptedText)
 
     newTitleEntry.insert(0, crypt.decrypt(title))
+
+    checkText()
 
 def save(title, text):
     notesObject = json.loads(file.read())
