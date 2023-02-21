@@ -13,3 +13,4 @@ windowHeight = 600
 root = ctk.CTk()
 root.title("Crypted Note")
 root.geometry(f"{windowWidth}x{windowHeight}+{int(monitorWidth/2-windowWidth/2)}+{int(monitorHeight/2-windowHeight/2)}")
+root.minsize(900, 600)

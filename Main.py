@@ -19,17 +19,16 @@ if __name__ == "__main__":
 
     notes.sort()
 
-    if len(notes) > 0:
-        for note in notes:
-            title = decrypt(note)
+    for note in notes:
+        title = decrypt(note)
 
-            newNoteButton = ctk.CTkButton(notesFrame, 
+        newNoteButton = ctk.CTkButton(notesFrame, 
                                     text=title, 
                                     width=500, 
                                     height=40, 
                                     font=("Helvetica", 20), 
                                     command=lambda:openNote(note))
             
-            newNoteButton.pack(pady=20)
+        newNoteButton.pack(pady=20)
 
     root.mainloop()
