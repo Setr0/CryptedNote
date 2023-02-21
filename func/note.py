@@ -116,3 +116,4 @@ def deleteNote(title):
     file.write(json.dumps(notesObject, indent=4))
 
     exitNote()
+    
