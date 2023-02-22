@@ -8,7 +8,7 @@
   <img src="appNote.png" />
 </div>
 
-<h2>An application where the user can write crypted documents made with Customtkinter Python</h2>
+<h2>An application where the user can write encrypted documents made with Customtkinter Python</h2>
 
 <h3>Requirements</h3>
 <ul>
