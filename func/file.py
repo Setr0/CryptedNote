@@ -1,13 +1,11 @@
-JSON_FILE = "json/notes.json"
-
-def read():
-    fileReader = open(JSON_FILE, "r")
+def read(jsonFile):
+    fileReader = open(jsonFile, "r")
 
     return fileReader.read()
 
 
-def write(text):
-    fileWriter = open(JSON_FILE, "w")
+def write(jsonFile, text):
+    fileWriter = open(jsonFile, "w")
     
     fileWriter.write(text)
     fileWriter.close

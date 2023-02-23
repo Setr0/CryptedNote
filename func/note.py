@@ -10,7 +10,7 @@ def create(titleEntry):
     
     cryptedTitle = crypt.encrypt(title)
 
-    notesObject = json.loads(file.read())
+    notesObject = json.loads(file.read("json/notes.json"))
 
     if cryptedTitle in notesObject.keys() or len(title) == 0:
         titleEntry.delete(0, ctk.END)
@@ -27,76 +27,56 @@ def create(titleEntry):
     newNoteButton.pack(pady=20)
     titleEntry.delete(0, ctk.END)
 
-    file.write(json.dumps(notesObject, indent=4))
+    file.write("json/notes.json", json.dumps(notesObject, indent=4))
 
 def openNote(title):
     from windows.home import homeFrame, notesFrame
-    from windows.note import noteFrame, textarea, saveButton, newTitleEntry, deleteButton, newTitleButton, oldTitleVariable, checkText
+    import windows.note as noteWindow
 
     for child in notesFrame.winfo_children():
         child.destroy()
 
     homeFrame.pack_forget()
-    noteFrame.pack(expand=True, fill=ctk.BOTH)
-    saveButton.configure(command=lambda:save(oldTitleVariable.get(), textarea.get(1.0, "end")))
-    deleteButton.configure(command=lambda:deleteNote(title))
+    noteWindow.noteFrame.pack(expand=True, fill=ctk.BOTH)
+    noteWindow.saveButton.configure(command=lambda:save(noteWindow.oldTitleVariable.get(), noteWindow.textarea.get(1.0, "end")))
+    noteWindow.deleteButton.configure(command=lambda:deleteNote(title))
     
-    oldTitleVariable.set(title)
-    newTitleButton.configure(command=lambda:newTitle(oldTitleVariable.get(), newTitleEntry.get()))
+    noteWindow.oldTitleVariable.set(title)
+    noteWindow.newTitleButton.configure(command=lambda:newTitle(noteWindow.oldTitleVariable.get(), noteWindow.newTitleEntry.get()))
 
-    notesObject = json.loads(file.read())
+    notesObject = json.loads(file.read("json/notes.json"))
 
     decryptedText = crypt.decrypt(notesObject[title])
 
-    textarea.insert(1.0, decryptedText)
+    noteWindow.textarea.insert(1.0, decryptedText)
 
-    newTitleEntry.insert(0, crypt.decrypt(title))
+    noteWindow.newTitleEntry.insert(0, crypt.decrypt(title))
 
-    checkText()
+    noteWindow.checkText()
 
 def save(title, text):
-    notesObject = json.loads(file.read())
+    notesObject = json.loads(file.read("json/notes.json"))
 
     cryptedText = crypt.encrypt(text)
 
     notesObject[title] = cryptedText
 
-    file.write(json.dumps(notesObject, indent=4))
+    file.write("json/notes.json", json.dumps(notesObject, indent=4))
 
 def exitNote():
-    from windows.home import homeFrame, notesFrame
+    from func.home import openHome
     from windows.note import noteFrame, textarea, newTitleEntry
 
     textarea.delete(1.0, ctk.END)
 
     newTitleEntry.delete(0, ctk.END)
 
-    noteFrame.pack_forget()
-    homeFrame.pack(fill=ctk.BOTH, expand=True)
-
-    notesObject = json.loads(file.read())
-
-    notes = list(notesObject.keys())
-
-    notes.sort()
-
-    for note in notes:
-        title = crypt.decrypt(note)
-
-        newNoteButton = ctk.CTkButton(notesFrame, 
-                                  text=title, 
-                                  width=500, 
-                                  height=40, 
-                                  font=("Helvetica", 20), 
-                                  command=lambda:openNote(note))
-        
-        newNoteButton.pack(pady=20)
-
+    openHome(noteFrame)
 
 def newTitle(oldTitle, newTitle):
     from windows.note import oldTitleVariable
 
-    notesObject = json.loads(file.read())
+    notesObject = json.loads(file.read("json/notes.json"))
 
     cryptedNewTitle = crypt.encrypt(newTitle)
 
@@ -104,16 +84,16 @@ def newTitle(oldTitle, newTitle):
 
     del notesObject[oldTitle]
 
-    file.write(json.dumps(notesObject, indent=4))
+    file.write("json/notes.json", json.dumps(notesObject, indent=4))
 
     oldTitleVariable.set(cryptedNewTitle)
 
 def deleteNote(title):
-    notesObject = json.loads(file.read())
+    notesObject = json.loads(file.read("json/notes.json"))
 
     del notesObject[title]
 
-    file.write(json.dumps(notesObject, indent=4))
+    file.write("json/notes.json", json.dumps(notesObject, indent=4))
 
     exitNote()
     

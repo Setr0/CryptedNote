@@ -1,5 +1,6 @@
-from windows.home import homeFrame, notesFrame
 from windows.root import root
+from windows.signup import signupFrame
+from windows.login import loginFrame
 import customtkinter as ctk
 import json
 from os.path import exists
@@ -10,25 +11,11 @@ import func.file as file
 if __name__ == "__main__":
 
     if not exists("json/notes.json"):
-        file.write(json.dumps({}, indent=4))
+        file.write("json/notes.json", json.dumps({}, indent=4))
 
-    homeFrame.pack(fill=ctk.BOTH, expand=True)
-    
-    notesObject = json.loads(file.read())
-    notes = list(notesObject.keys())
-
-    notes.sort()
-
-    for note in notes:
-        title = decrypt(note)
-
-        newNoteButton = ctk.CTkButton(notesFrame, 
-                                    text=title, 
-                                    width=500, 
-                                    height=40, 
-                                    font=("Helvetica", 20), 
-                                    command=lambda:openNote(note))
-            
-        newNoteButton.pack(pady=20)
+    if exists("json/creds.json"):
+        loginFrame.pack(expand=True)
+    else:
+        signupFrame.pack(expand=True)
 
     root.mainloop()
