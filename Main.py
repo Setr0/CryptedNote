@@ -9,7 +9,6 @@ from func.crypt import decrypt
 import func.file as file
 
 if __name__ == "__main__":
-
     if not exists("json/notes.json"):
         file.write("json/notes.json", json.dumps({}, indent=4))
 
