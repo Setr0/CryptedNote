@@ -1,7 +1,8 @@
+from func.text import check
 import customtkinter as ctk
-import json
 import func.crypt as crypt
 import func.file as file
+import json
 
 def create(titleEntry):
     from windows.home import notesFrame
@@ -37,22 +38,17 @@ def openNote(title):
         child.destroy()
 
     homeFrame.pack_forget()
+
     noteWindow.noteFrame.pack(expand=True, fill=ctk.BOTH)
-    noteWindow.saveButton.configure(command=lambda:save(noteWindow.oldTitleVariable.get(), noteWindow.textarea.get(1.0, "end")))
-    noteWindow.deleteButton.configure(command=lambda:deleteNote(title))
-    
     noteWindow.oldTitleVariable.set(title)
-    noteWindow.newTitleButton.configure(command=lambda:newTitle(noteWindow.oldTitleVariable.get(), noteWindow.newTitleEntry.get()))
 
     notesObject = json.loads(file.read("json/notes.json"))
 
     decryptedText = crypt.decrypt(notesObject[title])
 
     noteWindow.textarea.insert(1.0, decryptedText)
-
     noteWindow.newTitleEntry.insert(0, crypt.decrypt(title))
-
-    noteWindow.checkText()
+    check(noteWindow.textarea, noteWindow.wordsLabel, noteWindow.charsLabel)
 
 def save(title, text):
     notesObject = json.loads(file.read("json/notes.json"))
@@ -79,7 +75,6 @@ def newTitle(oldTitle, newTitle):
     notesObject = json.loads(file.read("json/notes.json"))
 
     cryptedNewTitle = crypt.encrypt(newTitle)
-
     notesObject[cryptedNewTitle] = notesObject[oldTitle]
 
     del notesObject[oldTitle]

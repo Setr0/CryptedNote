@@ -3,7 +3,6 @@ def read(jsonFile):
 
     return fileReader.read()
 
-
 def write(jsonFile, text):
     fileWriter = open(jsonFile, "w")
     

@@ -1,8 +1,8 @@
 from func.home import openHome
-import json
 import customtkinter as ctk
 import func.file as file
 import func.crypt as crypt
+import json
 
 def signup(signupFrame, passwordEntry, confirmPasswordEntry):
     password = passwordEntry.get()
@@ -44,3 +44,4 @@ def login(loginFrame, passwordEntry):
         return
 
     openHome(loginFrame)
+    

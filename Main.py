@@ -1,12 +1,9 @@
 from windows.root import root
 from windows.signup import signupFrame
 from windows.login import loginFrame
-import customtkinter as ctk
-import json
 from os.path import exists
-from func.note import openNote
-from func.crypt import decrypt
 import func.file as file
+import json
 
 if __name__ == "__main__":
     if not exists("json/notes.json"):

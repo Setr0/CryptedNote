@@ -26,3 +26,4 @@ def openHome(previousFrame):
                                     command=lambda:openNote(note))
                 
         newNoteButton.pack(pady=20)
+        

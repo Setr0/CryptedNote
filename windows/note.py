@@ -1,6 +1,7 @@
-import customtkinter as ctk
 from windows.root import root
-from func.note import exitNote
+import func.note as note
+from func.text import check
+import customtkinter as ctk
 
 noteFrame = ctk.CTkFrame(root, fg_color="transparent")
 
@@ -10,7 +11,13 @@ navbarFrame.pack(fill=ctk.X)
 navbarFrame.columnconfigure(0, weight=1)
 navbarFrame.columnconfigure(1, weight=1)
 
-saveButton = ctk.CTkButton(navbarFrame, bg_color="transparent", text="Save", width=80, height=40, font=("Helvetica", 20))
+saveButton = ctk.CTkButton(navbarFrame, 
+                           bg_color="transparent", 
+                           text="Save", 
+                           width=80, 
+                           height=40, 
+                           font=("Helvetica", 20), 
+                           command=lambda: note.save(oldTitleVariable.get(), textarea.get(1.0, "end")))
 saveButton.grid(column=0, row=0, sticky=ctk.W, padx=5, pady=5)
 
 newTitleForm = ctk.CTkFrame(navbarFrame, fg_color="transparent")
@@ -25,39 +32,25 @@ newTitleButton = ctk.CTkButton(newTitleForm,
                                 text="New",
                                 width=70,
                                 height=40,
-                                font=("Helvetica", 20))
+                                font=("Helvetica", 20),
+                                command=lambda: note.newTitle(oldTitleVariable.get(), newTitleEntry.get()))
 newTitleButton.grid(row=0, column=1, padx=(10, 0))
 
-exitButton = ctk.CTkButton(navbarFrame, text="Exit", width=80, height=40, font=("Helvetica", 20), command=exitNote)
+exitButton = ctk.CTkButton(navbarFrame, text="Exit", width=80, height=40, font=("Helvetica", 20), command=note.exitNote)
 exitButton.grid(column=2, row=0, padx=5, pady=5, sticky=ctk.E)
 
-deleteButton = ctk.CTkButton(navbarFrame, text="Delete", width=80, height=40, font=("Helvetica", 20))
+deleteButton = ctk.CTkButton(navbarFrame, 
+                             text="Delete", 
+                             width=80, 
+                             height=40, 
+                             font=("Helvetica", 20), 
+                             command=lambda: note.deleteNote(oldTitleVariable.get()))
 deleteButton.grid(column=3, row=0, padx=5, pady=5, sticky=ctk.E)
 
 textarea = ctk.CTkTextbox(noteFrame, font=("Helvetica", 20))
 textarea.pack(expand=True, fill=ctk.BOTH)
 
-def checkText(*args):
-    text = textarea.get(1.0, "end-1c")
-    text = text.replace("\n", " ")
-
-    textArray = text.split(" ")
-
-    while "" in textArray:
-        textArray.remove("")
-
-    while "\n" in textArray:
-        textArray.remove("\n")
-
-    wordsLabel.configure(text=f"Words: {len(textArray)}")
-    
-    for char in text:
-        if char == " " or char == "\n":
-            text = text.replace(char, "")
-
-    charsLabel.configure(text=f"Characters: {len(text)}")
-
-textarea.bind("<KeyRelease>", checkText)
+textarea.bind("<KeyRelease>", lambda event: check(textarea, wordsLabel, charsLabel))
 
 infoBar = ctk.CTkFrame(noteFrame, height=40)
 infoBar.pack(fill=ctk.X, side=ctk.BOTTOM)
