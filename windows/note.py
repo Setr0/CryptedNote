@@ -25,7 +25,7 @@ newTitleForm.grid(column=1, row=0, sticky=ctk.NW, pady=5)
 
 oldTitleVariable = ctk.StringVar()
 
-newTitleEntry = ctk.CTkEntry(newTitleForm, width=500, height=40, font=("Helvetica", 20))
+newTitleEntry = ctk.CTkEntry(newTitleForm, width=500, height=40, font=("Helvetica", 20), placeholder_text="New title")
 newTitleEntry.grid(row=0, column=0)
 
 newTitleButton = ctk.CTkButton(newTitleForm, 

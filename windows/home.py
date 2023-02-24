@@ -7,7 +7,7 @@ homeFrame = ctk.CTkFrame(root, fg_color="transparent")
 newNoteFormFrame = ctk.CTkFrame(homeFrame, fg_color="transparent")
 newNoteFormFrame.pack(pady=20)
 
-titleEntry = ctk.CTkEntry(newNoteFormFrame, width=500, height=40, font=("Helvetica", 20))
+titleEntry = ctk.CTkEntry(newNoteFormFrame, width=500, height=40, font=("Helvetica", 20), placeholder_text="Title")
 titleEntry.grid(row=0, column=0)
 
 newNoteButton = ctk.CTkButton(newNoteFormFrame,
