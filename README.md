@@ -1,11 +1,11 @@
 <h1 align="center">CryptedNote</h1>
 
 <div align="center">
-  <img src="app.png" />
+  <img src="home.png" />
 </div>
 
 <div align="center">
-  <img src="appNote.png" />
+  <img src="note.png" />
 </div>
 
 <h2>An application where the user can write encrypted documents made with Customtkinter Python</h2>
