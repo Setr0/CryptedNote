@@ -1,6 +1,7 @@
-import customtkinter as ctk
 from windows.root import root
 from func.note import create
+from func.theme import getTheme, changeTheme
+import customtkinter as ctk
 
 homeFrame = ctk.CTkFrame(root, fg_color="transparent")
 
@@ -21,3 +22,11 @@ newNoteButton.grid(row=0, column=1, padx=(10, 0))
 
 notesFrame = ctk.CTkScrollableFrame(homeFrame, fg_color="transparent")
 notesFrame.pack(pady=20, fill=ctk.BOTH, expand=True)
+
+themeButton = ctk.CTkButton(homeFrame, 
+                            text=getTheme(), 
+                            width=70, 
+                            height=40, 
+                            font=("Helvetica", 20), 
+                            command=lambda: changeTheme(themeButton))
+themeButton.pack(side=ctk.LEFT, anchor=ctk.SW)

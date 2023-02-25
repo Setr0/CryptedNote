@@ -1,7 +1,8 @@
+from func.theme import getTheme
 import customtkinter as ctk
 import screeninfo
 
-ctk.set_appearance_mode("System")
+ctk.set_appearance_mode(getTheme())
 ctk.set_default_color_theme("blue")
 
 monitorWidth = screeninfo.get_monitors()[0].width

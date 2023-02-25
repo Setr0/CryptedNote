@@ -1,5 +1,6 @@
-from windows.home import homeFrame, notesFrame
+from windows.home import homeFrame, notesFrame, themeButton
 from func.note import openNote
+from func.theme import getTheme
 import func.crypt as crypt
 import func.file as file
 import customtkinter as ctk
