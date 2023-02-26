@@ -24,7 +24,7 @@ def openHome(previousFrame):
                                     width=500, 
                                     height=40, 
                                     font=("Helvetica", 20), 
-                                    command=lambda:openNote(note))
+                                    command=lambda cryptedTitle=note:openNote(cryptedTitle))
                 
         newNoteButton.pack(pady=20)
         
